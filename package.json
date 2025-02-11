@@ -1,12 +1,8 @@
 {
-  "name": "chrome-extension-boilerplate-react-vite",
+  "name": "side-gpt",
   "version": "0.3.3",
-  "description": "chrome extension boilerplate",
+  "description": "Super charge your browsing experience",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite.git"
-  },
   "type": "module",
   "scripts": {
     "clean:bundle": "rimraf dist && rimraf dist-zip && turbo clean:bundle",
@@ -35,6 +31,9 @@
     "jsdom": "^25.0.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-markdown": "^9.0.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0",
     "turndown": "^7.2.0"
   },
   "devDependencies": {

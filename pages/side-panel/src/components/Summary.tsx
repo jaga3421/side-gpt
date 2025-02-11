@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import TalkToNode from './TalkToNode';
 
 interface SummaryProps {
   title: string;
   description: string;
   domain: string;
   favicon: string;
+  content: string;
   keywords: string[];
 }
 
-export const Summary: React.FC<SummaryProps> = ({ title, description, domain, favicon, keywords }) => {
+export const Summary: React.FC<SummaryProps> = ({ title, description, domain, favicon, content, keywords }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showAllKeywords, setShowAllKeywords] = useState(false);
+  const [summary, setSummary] = useState('');
 
   const truncateDescription = (text: string, limit: number) => {
     if (text.length <= limit) return text;
@@ -23,14 +26,39 @@ export const Summary: React.FC<SummaryProps> = ({ title, description, domain, fa
     return words.slice(0, wordLimit).join(' ') + '...';
   };
 
+  useEffect(() => {
+    const generateSummary = () => {
+      const keywordsString = keywords.join(', ');
+      const summaryContent = `
+        **Title**
+        ${title}
+
+        **website url**
+        ${domain}
+
+        **keyword**
+        ${keywordsString}
+
+        **short description**
+        ${description}
+
+        **content summary**
+        ${content}
+      `;
+      setSummary(summaryContent);
+    };
+
+    generateSummary();
+  }, [title, domain, keywords, description, content]);
+
   const visibleDescription = showFullDescription ? description : truncateDescription(description, 200);
   const visibleKeywords = showAllKeywords ? keywords : keywords.slice(0, 5);
 
   return (
-    <div className="bg-white p-4 shadow-sm">
+    <div className="bg-white p-1 px-4 shadow-sm">
       <div className="mb-4 flex items-center">
         <img src={favicon} alt="Favicon" className="mr-3 size-8" />
-        <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
+        <h2 className="font-semibold text-gray-800">{title}</h2>
       </div>
       <div className="mb-3">
         <p className="text-sm text-gray-600">{visibleDescription}</p>
@@ -60,6 +88,8 @@ export const Summary: React.FC<SummaryProps> = ({ title, description, domain, fa
           </button>
         )}
       </div>
+      <div className="my-8 " />
+      <TalkToNode summary={summary} />
     </div>
   );
 };
